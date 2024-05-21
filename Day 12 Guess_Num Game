@@ -1,0 +1,45 @@
+import random
+from art import logo
+
+EASY_ATTEMPTS = 10
+HARD_ATTEMPTS = 5
+
+def set_difficulty():
+    choose_lvl = input("Choose a difficulty. Type 'easy' or 'hard': ").lower()
+    if choose_lvl == "easy":
+        return EASY_ATTEMPTS
+    else:
+        return  HARD_ATTEMPTS
+
+def check_num(guess, ans, attempts):
+    if guess > ans:
+        print("Too high.")
+        return attempts -1
+    elif guess < ans:
+        print("Too low.")
+        return attempts -1
+    else:
+        print(f"You got it. The answer was {ans}.")
+
+def game():
+    print("Welcome to the Number Guessing Game!")
+    print("I'm thinking of a number between 1 and 100.")
+
+    answer = random.randint(1, 100)
+    print(f"The answer is {answer}")
+    turn = set_difficulty()
+    guess_num = 0
+    while guess_num != answer:
+        print(f"You have {turn} attempts remaining to guess the number.")
+        guess_num = int(input("Make a guess: "))
+        turn = check_num(guess_num, answer, turn)
+
+        if turn == 0:
+            print("You've run out of guesses, you lose.")
+            return
+        elif guess_num != answer:
+            print("Guess again.")
+
+game()
+
+
