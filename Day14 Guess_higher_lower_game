@@ -1,0 +1,92 @@
+import random
+from art import logo, vs
+from game_data import data
+from os import system
+
+
+
+
+#生成账号数据
+def random_data():
+  return random.choice(data)
+
+
+# 显示数据格式
+def format_data(account):
+  """Format account into printable format: name, description and country"""
+  account_name = account["name"]
+  account_descr = account["description"]
+  account_country = account["country"]
+  return f" {account_name}, a {account_descr}, from {account_country} "
+
+
+#猜选哪个账号的粉丝量多
+#根据game_data里follower_count 来对比谁的粉丝量多
+def check_answer(guess, a_follower, b_follower):
+  """Checks followers against user's guess 
+  and returns True if they got it right.
+  Or False if they got it wrong."""
+  if a_follower > b_follower:
+    return guess == 'a'
+  else:
+    return guess == 'b'
+
+
+def game():
+  #显示logo
+  print(logo)
+  score = 0
+  should_continue = True
+  account_a = random_data()
+  account_b = random_data()
+
+  while should_continue:
+    #账号二数据会在下一轮时 变成 账号一的数据
+    account_a = account_b
+    account_b = random_data()
+    while account_a == account_b:
+      account_b = random_data()
+    print(f"Compare A: {format_data(account_a)}")
+    #显示logo
+    print(vs)
+    print(f"Against B: {format_data(account_b)}")
+    guess = input("Who has more followers? Type 'A' or 'B': ").lower()
+    answer = check_answer(guess, account_a["follower_count"],
+                          account_b["follower_count"])
+
+    #使用步骤4）的答案检查是否 对错
+    #答对了加分 分数一直会变化
+    if answer:
+      score += 1
+      #在继续第二轮时 screen会被清除，将会显示分数和账号一二的数据再继续做答
+      system('clear')
+      print(f"You're right. Current score: {score}")
+    else:
+      #如 错了 就显示“对不起你答错了。你的最终分数是——。退出游戏
+      should_continue = False
+      print(f"Sorry, that's wrong. Final score: {score}")
+
+game()
+
+
+# Generate a random account from the game data.
+
+# Format account data into printable format.
+
+# Ask user for a guess.
+
+# Check if user is correct.
+## Get follower count.
+## If Statement
+
+# Feedback.
+
+# Score Keeping.
+
+# Make game repeatable.
+
+# Make B become the next A.
+
+# Add art.
+
+# Clear screen between rounds.
